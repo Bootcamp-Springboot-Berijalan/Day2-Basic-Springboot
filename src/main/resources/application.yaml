@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: bootcamp-service
+  dataSource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/bootcamp_db
+    username: postgres
+    password: admin123
+name:
+  firstName: Maulana
+  lastName: Daffa
+
+server:
+  port: 3000
