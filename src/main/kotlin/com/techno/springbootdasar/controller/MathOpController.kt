@@ -20,7 +20,7 @@ class MathOpController(
         val res = mathOpService.add(req)
         return ResponseEntity.ok(res)
     }
-    @PostMapping("/substraction")
+    @PostMapping("/subtraction")
     fun getSubs(@RequestBody req: ReqPerhitunganDto): ResponseEntity<ResHasilDto>{
         val res = mathOpService.subs(req)
         return ResponseEntity.ok(res)
