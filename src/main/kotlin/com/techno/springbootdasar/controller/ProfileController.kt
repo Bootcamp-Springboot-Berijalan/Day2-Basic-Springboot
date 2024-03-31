@@ -15,8 +15,12 @@ class ProfileController(
     val profileService: ProfileService
 ) {
     @PostMapping("/create")
-    fun insert(@Valid @RequestBody req: ReqProfileDto): ResponseEntity<ResMessageDto<String>>{
-        val res = profileService.create(req)
+    fun insert(
+        @Valid
+        @RequestBody req: ReqProfileDto,
+        @RequestParam seed: String
+    ): ResponseEntity<ResMessageDto<String>>{
+        val res = profileService.create(seed, req)
         return ResponseEntity.ok(res)
     }
     @GetMapping("/profiles")
@@ -33,9 +37,10 @@ class ProfileController(
     fun update(
         @Valid
         @RequestBody req: ReqProfileDto,
-        @RequestParam id: Int
+        @RequestParam id: Int,
+        @RequestParam seed: String
     ): ResponseEntity<ResMessageDto<String>>{
-        val res = profileService.update(id, req)
+        val res = profileService.update(id, seed, req)
         return ResponseEntity.ok(res)
     }
     @DeleteMapping("/delete")

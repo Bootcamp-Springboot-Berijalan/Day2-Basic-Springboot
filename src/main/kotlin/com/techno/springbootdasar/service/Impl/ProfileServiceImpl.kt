@@ -8,12 +8,14 @@ import com.techno.springbootdasar.exception.DataHasSpacesException
 import com.techno.springbootdasar.exception.DataNotFoundException
 import com.techno.springbootdasar.exception.DataNotUniqueException
 import com.techno.springbootdasar.repository.ProfileRepository
+import com.techno.springbootdasar.rest.AvatarClient
 import com.techno.springbootdasar.service.ProfileService
 import org.springframework.stereotype.Service
 
 @Service
 class ProfileServiceImpl(
-    val profileRepository: ProfileRepository
+    val profileRepository: ProfileRepository,
+    val avatarClient: AvatarClient
 ): ProfileService {
     fun checkDupe(username: String, email: String){
         val usedUsername = profileRepository.findByUsername(username)
@@ -45,13 +47,19 @@ class ProfileServiceImpl(
         }
     }
 
-    override fun create(req: ReqProfileDto): ResMessageDto<String> {
+    override fun create(seed: String, req: ReqProfileDto): ResMessageDto<String> {
         checkDupe(req.username, req.email)
+        val getAvatar = avatarClient.getAvatar(seed)
+        var avatar = ""
+        if(getAvatar.statusCode.is2xxSuccessful){
+            avatar = String(getAvatar.body?: byteArrayOf())
+        }
         val input = ProfileEntity(
             name = req.name,
             username = req.username,
             email = req.email,
-            password = req.password
+            password = req.password,
+            avatar = avatar
         )
         profileRepository.save(input)
         return ResMessageDto()
@@ -66,7 +74,8 @@ class ProfileServiceImpl(
                 name = profile.name,
                 username = profile.username,
                 email = profile.email,
-                password = profile.password
+                password = profile.password,
+                avatar = profile.avatar
             )
             res.add(data)
         }
@@ -82,20 +91,27 @@ class ProfileServiceImpl(
             name = idExist.get().name!!,
             username = idExist.get().username!!,
             email = idExist.get().email!!,
-            password = idExist.get().password!!
+            password = idExist.get().password!!,
+            avatar = idExist.get().avatar!!
         )
         return ResMessageDto(data = res)
     }
 
-    override fun update(id: Int, req: ReqProfileDto): ResMessageDto<String> {
+    override fun update(id: Int, seed: String, req: ReqProfileDto): ResMessageDto<String> {
         val idExist = profileRepository.findById(id)
         if(idExist.isEmpty)
             throw DataNotFoundException("Id not found")
         checkDupeUpdate(req.username, req.email)
+        val getAvatar = avatarClient.getAvatar(seed)
+        var avatar = ""
+        if(getAvatar.statusCode.is2xxSuccessful){
+            avatar = String(getAvatar.body?: byteArrayOf())
+        }
         idExist.get().name = req.name
         idExist.get().username = req.username
         idExist.get().email = req.email
         idExist.get().password = req.password
+        idExist.get().avatar = avatar
         profileRepository.save(idExist.get())
         return ResMessageDto()
     }

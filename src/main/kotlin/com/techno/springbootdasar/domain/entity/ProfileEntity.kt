@@ -6,7 +6,7 @@ import jakarta.persistence.*
 @Table(name = "mst_profile")
 data class ProfileEntity(
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     val id: Int? = null,
     @Column(name = "name")
@@ -17,4 +17,6 @@ data class ProfileEntity(
     var email: String? = null,
     @Column(name = "password")
     var password: String? = null,
+    @Column(name = "avatar", columnDefinition = "TEXT")
+    var avatar: String? = null
 )

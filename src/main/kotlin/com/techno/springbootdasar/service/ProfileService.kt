@@ -8,9 +8,9 @@ import com.techno.springbootdasar.domain.dto.response.ResProfileDto
 import java.util.*
 
 interface ProfileService {
-    fun create(req: ReqProfileDto): ResMessageDto<String>
+    fun create(seed: String, req: ReqProfileDto): ResMessageDto<String>
     fun readAll(): ResMessageDto<List<ResProfileDto>>
     fun readById(id: Int): ResMessageDto<ResProfileDto>
-    fun update(id: Int, req: ReqProfileDto): ResMessageDto<String>
+    fun update(id: Int, seed: String, req: ReqProfileDto): ResMessageDto<String>
     fun delete(id: Int): ResMessageDto<String>
 }

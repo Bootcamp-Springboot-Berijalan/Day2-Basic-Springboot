@@ -1,7 +1,5 @@
 package com.techno.springbootdasar.service.Impl
 
-import com.techno.springbootdasar.domain.dto.response.ResBranchDataDto
-import com.techno.springbootdasar.domain.dto.response.ResBranchDto
 import com.techno.springbootdasar.domain.dto.response.ResBranchOutDataDto
 import com.techno.springbootdasar.rest.BranchClient
 import com.techno.springbootdasar.service.BranchService

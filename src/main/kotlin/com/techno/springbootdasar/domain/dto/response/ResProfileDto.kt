@@ -10,4 +10,5 @@ data class ResProfileDto(
     val username: String?,
     val email: String?,
     val password: String?,
+    val avatar: String?
 )
