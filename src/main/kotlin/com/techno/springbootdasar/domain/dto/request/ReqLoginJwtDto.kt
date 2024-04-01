@@ -1,0 +1,8 @@
+package com.techno.springbootdasar.domain.dto.request
+
+data class ReqLoginJwtDto(
+    val id: String,
+    val name: String,
+    val username: String,
+    val email: String
+)
