@@ -6,6 +6,7 @@ import com.techno.springbootdasar.domain.dto.request.ReqLoginDto
 import com.techno.springbootdasar.domain.dto.request.ReqLoginJwtDto
 import com.techno.springbootdasar.domain.dto.response.*
 import com.techno.springbootdasar.service.LoginService
+import com.techno.springbootdasar.service.ValidateLoginService
 import com.techno.springbootdasar.util.JWTGenerator
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/v1/api")
 class JwtController(
-    val loginService: LoginService
+    val loginService: LoginService,
+    val validateLoginService: ValidateLoginService
 ) {
     @PostMapping("/encode")
     fun encodeJwt(@RequestBody req: ReqEncodeJWTDto): ResponseEntity<ResMessageDto<ResEncodeJWTDto>>{
@@ -51,15 +53,10 @@ class JwtController(
     }
     @GetMapping("/validate-login")
     fun validate(@RequestHeader token: String): ResponseEntity<ResMessageDto<ResLoginJwtDto>>{
-        val claim = JWTGenerator().decodeJWT(token)
+        val res = validateLoginService.validateLogin(token)
         return ResponseEntity.ok(ResMessageDto(
             message = "Success Decode Jwt",
-            data = ResLoginJwtDto(
-                claim["id"].toString(),
-                claim["name"].toString(),
-                claim["username"].toString(),
-                claim["email"].toString()
-            )
+            data = res
         ))
     }
 }
