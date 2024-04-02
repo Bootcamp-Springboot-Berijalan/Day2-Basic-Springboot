@@ -19,5 +19,10 @@ name:
   firstName: Maulana
   lastName: Daffa
 
+header:
+  request:
+#    api-key: ecd7d484-1bdf-4f71-8c41-543c4d0ef05e
+    api-key: ${API_KEY}
+
 server:
   port: 3000

@@ -5,6 +5,7 @@ import com.techno.springbootdasar.domain.dto.request.ReqLoginDto
 import com.techno.springbootdasar.domain.dto.request.ReqLoginJwtDto
 import com.techno.springbootdasar.domain.dto.request.ReqProfileDto
 import com.techno.springbootdasar.domain.dto.response.ResProfileDto
+import com.techno.springbootdasar.exception.InvalidTokenException
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.JwtBuilder
 import io.jsonwebtoken.JwtException
@@ -80,7 +81,7 @@ class JWTGenerator {
             return claims
         }catch (e: JwtException){
             e.printStackTrace()
-            throw RuntimeException("Invalid token")
+            throw InvalidTokenException("Invalid token")
         }
     }
 }

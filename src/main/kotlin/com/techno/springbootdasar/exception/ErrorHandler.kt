@@ -3,6 +3,7 @@ package com.techno.springbootdasar.exception
 import com.techno.springbootdasar.domain.dto.response.ResMessageDto
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -45,6 +46,13 @@ class ErrorHandler {
         exception.printStackTrace()
         return ResponseEntity.badRequest().body(ResMessageDto(
             status = 400, message = exception.message.toString()
+        ))
+    }
+    @ExceptionHandler(InvalidTokenException::class)
+    fun handleInvalidToken(exception: InvalidTokenException): ResponseEntity<ResMessageDto<String>>{
+        exception.printStackTrace()
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResMessageDto(
+            status = 401, message = exception.message.toString()
         ))
     }
 }
